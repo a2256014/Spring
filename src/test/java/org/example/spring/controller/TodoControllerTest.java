@@ -1,7 +1,7 @@
 package org.example.spring.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.spring.model.TodoModel;
+import org.example.spring.model.TodoEntity;
 import org.example.spring.model.TodoRequest;
 import org.example.spring.service.TodoService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,11 +27,11 @@ class TodoControllerTest {
     @MockBean
     TodoService todoService;
 
-    private TodoModel expected;
+    private TodoEntity expected;
 
     @BeforeEach
     void setup(){
-        this.expected = new TodoModel();
+        this.expected = new TodoEntity();
         this.expected.setId(123L);
         this.expected.setTitle("TEST TITLE");
         this.expected.setOrder(0L);
@@ -43,7 +43,7 @@ class TodoControllerTest {
         when(this.todoService.add(any(TodoRequest.class)))
                 .then(i->{
                     TodoRequest request = i.getArgument(0,TodoRequest.class);
-                    return new TodoModel(this.expected.getId(), request.getTitle(),this.expected.getOrder(),this.expected.getCompleted());
+                    return new TodoEntity(this.expected.getId(), request.getTitle(),this.expected.getOrder(),this.expected.getCompleted());
                 });
 
         TodoRequest request = new TodoRequest();

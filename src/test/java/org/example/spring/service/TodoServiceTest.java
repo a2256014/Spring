@@ -1,6 +1,6 @@
 package org.example.spring.service;
 
-import org.example.spring.model.TodoModel;
+import org.example.spring.model.TodoEntity;
 import org.example.spring.model.TodoRequest;
 import org.example.spring.repository.TodoRepository;
 import org.junit.jupiter.api.Test;
@@ -28,31 +28,31 @@ class TodoServiceTest {
 
     @Test
     void add() {
-        when(this.todoRepository.save(any(TodoModel.class)))
+        when(this.todoRepository.save(any(TodoEntity.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
         TodoRequest expected = new TodoRequest();
         expected.setTitle("Test Title");
 
-        TodoModel actual = this.todoService.add(expected);
+        TodoEntity actual = this.todoService.add(expected);
 
         assertEquals(expected.getTitle(), actual.getTitle());
     }
 
     @Test
     void searchById() {
-        TodoModel entity = new TodoModel();
+        TodoEntity entity = new TodoEntity();
         entity.setId(123L);
         entity.setTitle("kim");
         entity.setOrder(0L);
         entity.setCompleted(false);
-        Optional<TodoModel> optional = Optional.of(entity);
+        Optional<TodoEntity> optional = Optional.of(entity);
 
         given(this.todoRepository.findById(anyLong()))
                 .willReturn(optional);
 
-        TodoModel actual = this.todoService.searchById(123L);
-        TodoModel expected = optional.get();
+        TodoEntity actual = this.todoService.searchById(123L);
+        TodoEntity expected = optional.get();
 
         assertEquals(expected.getId(),actual.getId());
         assertEquals(expected.getTitle(),actual.getTitle());
